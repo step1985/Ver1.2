@@ -6,33 +6,19 @@ using System.Threading.Tasks;
 
 namespace BotVer1._2.Models
 {
-    class EventPatern: Component
+    public class EventPatern: Composite
     {
-        public EventPatern(string name) : base(name) { }
+        public string Id { get; private set; }
+        public DateTime? OpenDate { get; private set; }
+        public EventPatern(string name, string id, DateTime? openDate) : base(name) { Id = id; OpenDate = openDate; }
 
-        public override void Add(Component component)
+        public override string SetTextNode()
         {
-            throw new NotImplementedException();
-        }
-
-        public override Component GetChild(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Interpret(Context context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Operation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(Component component)
-        {
-            throw new NotImplementedException();
+            //DateTime dt = (DateTime)this.OpenDate;
+            //TimeSpan t = new TimeSpan(2, 0, 0);
+            //dt += t;
+            //return dt.ToString("dd/MM HH:mm") + "   " + this.Name;
+            return Convert.ToDateTime(OpenDate).ToLocalTime().ToString("dd/MM HH:mm") + "   " + this.Name;
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿using System;
+﻿using BotVer1._2.Json;
+using BotVer1._2.TO;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
+using System.IO;
+using System.Net;
 using System.Text;
 using System.Web.Services.Protocols;
-using System.Net;
-using System.IO;
-using BotVer1._2.TO;
-using BotVer1._2.Json;
 
 namespace BotVer1._2.Controllers
 {
@@ -19,21 +18,21 @@ namespace BotVer1._2.Controllers
         public const string SESSION_TOKEN_HEADER = "X-Authentication";
         public NameValueCollection CustomHeaders { get; set; }
         private static readonly string LIST_EVENTS_METHOD = "SportsAPING/v1.0/listEvents";
-        private static readonly string LIST_EVENT_TYPES_METHOD = "SportsAPING/v1.0/listEventTypes";
-        private static readonly string LIST_MARKET_TYPES_METHOD = "SportsAPING/v1.0/listMarketTypes";
+        //private static readonly string LIST_EVENT_TYPES_METHOD = "SportsAPING/v1.0/listEventTypes";
+        //private static readonly string LIST_MARKET_TYPES_METHOD = "SportsAPING/v1.0/listMarketTypes";
         private static readonly string LIST_MARKET_CATALOGUE_METHOD = "SportsAPING/v1.0/listMarketCatalogue";
         private static readonly string LIST_MARKET_BOOK_METHOD = "SportsAPING/v1.0/listMarketBook";
         private static readonly string PLACE_ORDERS_METHOD = "SportsAPING/v1.0/placeOrders";
-        private static readonly string LIST_MARKET_PROFIT_AND_LOST_METHOD = "SportsAPING/v1.0/listMarketProfitAndLoss";
+       // private static readonly string LIST_MARKET_PROFIT_AND_LOST_METHOD = "SportsAPING/v1.0/listMarketProfitAndLoss";
         private static readonly string LIST_CURRENT_ORDERS_METHOD = "SportsAPING/v1.0/listCurrentOrders";
-        private static readonly string LIST_CLEARED_ORDERS_METHOD = "SportsAPING/v1.0/listClearedOrders";
-        private static readonly string CANCEL_ORDERS_METHOD = "SportsAPING/v1.0/cancelOrders";
-        private static readonly string REPLACE_ORDERS_METHOD = "SportsAPING/v1.0/replaceOrders";
-        private static readonly string UPDATE_ORDERS_METHOD = "SportsAPING/v1.0/updateOrders";
-        private static readonly string GET_ACCOUNT_FUNDS_METHOD = "AccountAPING/v1.0/getAccountFunds";
+        //private static readonly string LIST_CLEARED_ORDERS_METHOD = "SportsAPING/v1.0/listClearedOrders";
+        //private static readonly string CANCEL_ORDERS_METHOD = "SportsAPING/v1.0/cancelOrders";
+        //private static readonly string REPLACE_ORDERS_METHOD = "SportsAPING/v1.0/replaceOrders";
+        //private static readonly string UPDATE_ORDERS_METHOD = "SportsAPING/v1.0/updateOrders";
+        //private static readonly string GET_ACCOUNT_FUNDS_METHOD = "AccountAPING/v1.0/getAccountFunds";
         private static readonly String FILTER = "filter";
         private static readonly String LOCALE = "locale";
-        private static readonly String WALLET = "wallet";
+        //private static readonly String WALLET = "wallet";
         private static readonly String CURRENCY_CODE = "currencyCode";
         private static readonly String MARKET_PROJECTION = "marketProjection";
         private static readonly String MATCH_PROJECTION = "matchProjection";
@@ -45,27 +44,27 @@ namespace BotVer1._2.Controllers
         private static readonly String MARKET_ID = "marketId";
         private static readonly String INSTRUCTIONS = "instructions";
         private static readonly String CUSTOMER_REFERENCE = "customerRef";
-        private static readonly String INCLUDE_SETTLED_BETS = "includeSettledBets";
-        private static readonly String INCLUDE_BSP_BETS = "includeBspBets";
-        private static readonly String NET_OF_COMMISSION = "netOfCommission";
+        //private static readonly String INCLUDE_SETTLED_BETS = "includeSettledBets";
+        //private static readonly String INCLUDE_BSP_BETS = "includeBspBets";
+        //private static readonly String NET_OF_COMMISSION = "netOfCommission";
         private static readonly String BET_IDS = "betIds";
         private static readonly String PLACED_DATE_RANGE = "placedDateRange";
         private static readonly String ORDER_BY = "orderBy";
         private static readonly String SORT_DIR = "sortDir";
         private static readonly String FROM_RECORD = "fromRecord";
         private static readonly String RECORD_COUNT = "recordCount";
-        private static readonly string BET_STATUS = "betStatus";
-        private static readonly string EVENT_TYPE_IDS = "eventTypeIds";
-        private static readonly string EVENT_IDS = "eventIds";
-        private static readonly string RUNNER_IDS = "runnerIds";
-        private static readonly string SIDE = "side";
-        private static readonly string SETTLED_DATE_RANGE = "settledDateRange";
-        private static readonly string GROUP_BY = "groupBy";
-        private static readonly string INCLUDE_ITEM_DESCRIPTION = "includeItemDescription";
+        //private static readonly string BET_STATUS = "betStatus";
+        //private static readonly string EVENT_TYPE_IDS = "eventTypeIds";
+        //private static readonly string EVENT_IDS = "eventIds";
+        //private static readonly string RUNNER_IDS = "runnerIds";
+        //private static readonly string SIDE = "side";
+        //private static readonly string SETTLED_DATE_RANGE = "settledDateRange";
+        //private static readonly string GROUP_BY = "groupBy";
+        //private static readonly string INCLUDE_ITEM_DESCRIPTION = "includeItemDescription";
 
         //ToolStripStatusLabel tssl;
 
-        public JsonRpcClient(string endPoint = "https://api.betfair.com/exchange/betting", string appKey = "4SMLiJDiPpIPq4LO", string sessionToken = "BvFFD/4ScknHgz3k4jlHtIHkQGqbPJGSY+Vo1twdnkk=")
+        public JsonRpcClient(string endPoint = "https://api.betfair.com/exchange/betting", string appKey = "4SMLiJDiPpIPq4LO", string sessionToken = "VFh7jO3MLuB9aDu7f0jYQHg9H2EsfYITh+hbPBuhZkM=")
         {
 
             this.EndPoint = endPoint + "/json-rpc/v1";
@@ -171,7 +170,7 @@ namespace BotVer1._2.Controllers
             //Console.WriteLine("\nCalling: " + method +  " With args: " + JsonConvert.Serialize<IDictionary<string, object>>(args));
             //tssl.Text = method;
 
-            using (WebResponse response = GetWebResponse(request))// mistake connection
+            using (WebResponse response = GetWebResponse(request))// mistake connection often
             using (Stream stream = response.GetResponseStream())
             using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
             {
@@ -224,6 +223,21 @@ namespace BotVer1._2.Controllers
 
         //    return Invoke<CurrentOrderSummaryReport>(LIST_CURRENT_ORDERS_METHOD, args);
         //}
+
+        public CurrentOrderSummaryReport listCurrentOrders()
+        {
+            var args = new Dictionary<string, object>();
+            args[BET_IDS] = null;
+            args[MARKET_IDS] = null;
+            args[ORDER_PROJECTION] = null;
+            args[PLACED_DATE_RANGE] = null;
+            args[ORDER_BY] = null;
+            args[SORT_DIR] = null;
+            args[FROM_RECORD] = null;
+            args[RECORD_COUNT] = null;
+
+            return Invoke<CurrentOrderSummaryReport>(LIST_CURRENT_ORDERS_METHOD, args);
+        }
 
         //public ClearedOrderSummaryReport listClearedOrders(BetStatus betStatus, ISet<string> eventTypeIds = null, ISet<string> eventIds = null, ISet<string> marketIds = null, ISet<RunnerId> runnerIds = null, ISet<string> betIds = null, Side? side = null, TimeRange settledDateRange = null, GroupBy? groupBy = null, bool? includeItemDescription = null, String locale = null, int? fromRecord = null, int? recordCount = null)
         //{

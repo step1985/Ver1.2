@@ -36,6 +36,7 @@ namespace BotVer1._2.Controllers
         // * Lists current orders
         // * */
         //CurrentOrderSummaryReport listCurrentOrders(ISet<String> betIds, ISet<String> marketIds, OrderProjection? orderProjection = null, TimeRange placedDateRange = null, OrderBy? orderBy = null, SortDir? sortDir = null, int? fromRecord = null, int? recordCount = null);
+        CurrentOrderSummaryReport listCurrentOrders();
 
         ///**
         // * Lists cleared orders

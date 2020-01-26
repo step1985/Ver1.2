@@ -3,36 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BotVer1._2.Controllers;
 
 namespace BotVer1._2.Models
 {
-    public class TotallPatern : Component
+    public class TotallPatern : Leaf, IComparable
     {
-        public TotallPatern(string name) :base(name){ }
+        public string MarketId { get; private set; }
+        public int TotalMatched { get; private set; }
+        public bool IsOrders = false;
+        public TotallPatern(string name, string marketId, int totalMatched) :base(name){ MarketId = marketId; TotalMatched = totalMatched; }
+        public List<Bet> bets = new List<Bet>();
 
-        public override void Add(Component component)
+        public override string SetTextNode()
         {
-            throw new NotImplementedException();
+            return Name + "         $" + TotalMatched;
         }
-
-        public override Component GetChild(int index)
+        //public override void Interpret(IClient client)
+        //{
+        //    return;
+        //}
+        int IComparable.CompareTo(object obj)
         {
-            throw new NotImplementedException();
+            TotallPatern temp = (TotallPatern)obj;
+            if ((int)this.Name[11] > (int)temp.Name[11])
+                return 1;
+            if ((int)this.Name[11] < (int)temp.Name[11])
+                return -1;
+            return 0;
         }
-
-        public override void Interpret(Context context)
+        public override bool Equals(object obj)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void Operation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(Component component)
-        {
-            throw new NotImplementedException();
+            if (obj is TotallPatern && obj != null)
+            {
+                //Event temp = (Event)obj;
+                if (this.MarketId == (obj as TotallPatern).MarketId)
+                    return true;
+            }
+            return false;
         }
     }
 }

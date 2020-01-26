@@ -19,7 +19,7 @@ namespace BotVer1._2.Json
 
         public static T Deserialize<T>(string json)
         {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);//sesion token mistake
         }
 
         //Used for json rpc calls to create a body
